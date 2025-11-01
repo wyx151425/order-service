@@ -8,6 +8,12 @@ group = 'com.polarbookshop'
 version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '17'
 
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
 repositories {
     mavenCentral()
 }
@@ -21,8 +27,10 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-data-r2dbc'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     implementation 'org.springframework.boot:spring-boot-starter-webflux'
+    implementation 'org.springframework.cloud:spring-cloud-starter-config'
+    implementation 'org.springframework.retry:spring-retry'
 
-    runtimeOnly 'org.postgresql:r2dbc-postgresql'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
@@ -45,6 +53,25 @@ dependencyManagement {
     imports {
         mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
         mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+// 使用 Buildpacks 构建 Docker 镜像的 Spring Boot Plugin task
+bootBuildImage {
+    // 要构建的 OCI 镜像的名称。与项目 Gradle 配置中的名称相同。当在本地运行时，我们使用隐式的 “latest” 作为标签，而没有使用版本号
+    imageName = "${project.name}"
+    // 在镜像中安装的 JVM 版本，这里使用的是最新的 Java 17 版本
+    environment = ["BP_JVM_VERSION": "17.*"]
+
+    docker {
+        // 该部分配置与容器注册中心的连接
+        publishRegistry {
+            // 该部分配置发布容器注册中心的认证。这些值会以 Gradle 属性的形式传递进来
+            // ./gradlew bootBuildImage --imageName ghcr.io/wyx151425/catalog-service --publishImage -PregistryUrl=ghcr.io -PregistryUsername=wyx151425 -PregistryToken=ghp_
+            username = project.findProperty("registryUsername")
+            password = project.findProperty("registryToken")
+            url = project.findProperty("registryUrl")
+        }
     }
 }
 
