@@ -33,6 +33,28 @@ spring:
     user: ${spring.r2dbc.username}
     password: ${spring.r2dbc.password}
     url: jdbc:postgresql://localhost:5432/polardb_order
+  config:
+    # 如果配置服务器可用的话，会在这里导入配置数据
+    import: "optional:configserver:"
+  cloud:
+    config:
+      # 配置服务器的 URL
+      uri: http://localhost:8888
+      # 等待连接配置服务器的超时时间 (毫秒)
+      request-connect-timeout: 5000
+      # 等待从配置服务器读取配置数据的超时时间 (毫秒)
+      request-read-timeout: 5000
+      # 将连接至配置服务器的失败设置为致命错误
+      fail-fast: true
+      retry:
+        # 最大的尝试次数
+        max-attempts: 6
+        # Backoff 的初始重试间隔 (毫秒)
+        initial-interval: 1000
+        # Backoff 的最大重试间隔 (毫秒)
+        max-interval: 2000
+        # 计算下一次间隔的乘数
+        multiplier: 1.1
 
 # 为 Catalog Service 配置 URI
 polar:
