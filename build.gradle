@@ -26,6 +26,8 @@ dependencies {
 
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
+    // 为 OkHttp MockWebServer 添加测试依赖
+    testImplementation 'com.squareup.okhttp3:mockwebserver'
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.testcontainers:r2dbc'
@@ -34,8 +36,16 @@ dependencies {
     runtimeOnly 'org.flywaydb:flyway-core'
     // 提供 JDBC 驱动，以允许应用连接至 PostgreSQL 数据库
     runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.postgresql:r2dbc-postgresql'
     // 为 Spring 提供使用 JDBC API 进行集成的功能。它是 Spring 框架的一部分，不要与 Spring Data JDBC 混淆
     runtimeOnly 'org.springframework:spring-jdbc'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.testcontainers:testcontainers-bom:${testcontainersVersion}"
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
 }
 
 tasks.named('test') {
