@@ -29,6 +29,13 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.testcontainers:r2dbc'
+
+    // 提供通过迁移实现数据库版本管理的功能
+    runtimeOnly 'org.flywaydb:flyway-core'
+    // 提供 JDBC 驱动，以允许应用连接至 PostgreSQL 数据库
+    runtimeOnly 'org.postgresql:postgresql'
+    // 为 Spring 提供使用 JDBC API 进行集成的功能。它是 Spring 框架的一部分，不要与 Spring Data JDBC 混淆
+    runtimeOnly 'org.springframework:spring-jdbc'
 }
 
 tasks.named('test') {
