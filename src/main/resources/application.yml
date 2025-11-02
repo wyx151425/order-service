@@ -55,6 +55,35 @@ spring:
         max-interval: 2000
         # 计算下一次间隔的乘数
         multiplier: 1.1
+    function:
+      # 定义由 Spring Cloud Function 管理的函数
+      definition: dispatchOrder
+    stream:
+      bindings:
+        # 输入绑定
+        dispatchOrder-in-0:
+          # 在代理中，绑定器绑定的实际名称 (RabbitMQ 中的交换机)
+          destination: order-dispatched
+          # 对目的地感兴趣的消费者组，与应用的名称相同
+          group: ${spring.application.name}
+        # StreamBridge 创建和管理的输出绑定
+        acceptOrder-out-0:
+          # 在代理中，绑定器绑定的实际名称 (RabbitMQ 中的交换机)
+          destination: order-accepted
+      # RabbitMQ 针对 Spring Cloud Stream 绑定所提供的配置
+      rabbit:
+        bindings:
+          acceptOrder-out-0:
+            producer:
+              # 使 acceptOrder-out-0 绑定支持事务
+              transacted: true
+  # 配置与 RabbitMQ 的集成
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: user
+    password: password
+    connection-timeout: 5s
 
 # 为 Catalog Service 配置 URI
 polar:

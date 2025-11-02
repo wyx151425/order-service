@@ -47,6 +47,16 @@ dependencies {
     runtimeOnly 'org.postgresql:r2dbc-postgresql'
     // 为 Spring 提供使用 JDBC API 进行集成的功能。它是 Spring 框架的一部分，不要与 Spring Data JDBC 混淆
     runtimeOnly 'org.springframework:spring-jdbc'
+
+    implementation 'org.springframework.cloud:spring-cloud-stream-binder-rabbit'
+    testImplementation("org.springframework.cloud:spring-cloud-stream") {
+        artifact {
+            name = "spring-cloud-stream"
+            extension = "jar"
+            type ="test-jar"
+            classifier = "test-binder"
+        }
+    }
 }
 
 dependencyManagement {
