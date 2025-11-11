@@ -32,6 +32,8 @@ dependencies {
 
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
 
+    implementation 'org.springframework.boot:spring-boot-starter-oauth2-resource-server'
+
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'io.projectreactor:reactor-test'
     // 为 OkHttp MockWebServer 添加测试依赖
