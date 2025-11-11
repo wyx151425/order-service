@@ -1,6 +1,5 @@
-package com.polarbookshop.orderservice.order.web.web;
+package com.polarbookshop.orderservice.order.web;
 
-import com.polarbookshop.orderservice.order.web.OrderRequest;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
