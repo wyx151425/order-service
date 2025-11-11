@@ -21,6 +21,8 @@ repositories {
 ext {
     set('springCloudVersion', "2021.0.3")
     set('testcontainersVersion', "1.17.3")
+    // Testcontainers Keycloak 的版本
+    set('testKeycloakVersion', '2.3.0')
 }
 
 dependencies {
@@ -41,6 +43,11 @@ dependencies {
     testImplementation 'org.testcontainers:junit-jupiter'
     testImplementation 'org.testcontainers:postgresql'
     testImplementation 'org.testcontainers:r2dbc'
+
+    testImplementation 'org.springframework.security:spring-security-test'
+    testImplementation 'org.testcontainers:junit-jupiter'
+    // 基于 Testcontainers，提供 Keycloak 测试工具
+    testImplementation "com.github.dasniko:testcontainers-keycloak:${testKeycloakVersion}"
 
     // 提供通过迁移实现数据库版本管理的功能
     runtimeOnly 'org.flywaydb:flyway-core'
