@@ -12,6 +12,7 @@ import org.springframework.security.web.server.savedrequest.NoOpServerRequestCac
  * @Date: Created in 2025-11-11 21:11
  * @Modified By:
  */
+// 为 Spring Security 启用 Spring WebFlux 支持
 @EnableWebFluxSecurity
 public class SecurityConfig {
 

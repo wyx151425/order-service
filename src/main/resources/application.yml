@@ -89,7 +89,7 @@ spring:
       resourceserver:
         # OAuth2 并不强制要求访问令牌的格式，所以需要明确声明我们的选择。在本例中，我们想要使用 JWT
         jwt:
-          # Keycloak URL 提供了特定 realm 的所有 OAuth2 相关端点的信息
+          # Keycloak URL，提供了特定 realm 的所有 OAuth2 相关端点的信息
           issuer-uri: http://localhost:8080/realms/PolarBookshop
 
 # 为 Catalog Service 配置 URI

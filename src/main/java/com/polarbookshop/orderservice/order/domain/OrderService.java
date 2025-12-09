@@ -101,6 +101,10 @@ public class OrderService {
                 OrderStatus.DISPATCHED,
                 existingOrder.createdDate(),
                 existingOrder.lastModifiedDate(),
+                // 创建实体的用户
+                existingOrder.createdBy(),
+                // 最后更新实体的用户
+                existingOrder.lastModifiedBy(),
                 existingOrder.version()
         );
     }
