@@ -2,6 +2,8 @@ package com.polarbookshop.orderservice.order.web;
 
 import com.polarbookshop.orderservice.order.domain.Order;
 import com.polarbookshop.orderservice.order.domain.OrderService;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -28,8 +30,12 @@ public class OrderController {
 
     // 使用 Flux 来发布多个订单 (0..N)
     @GetMapping
-    public Flux<Order> getAllOrders() {
-        return orderService.getAllOrders();
+    public Flux<Order> getAllOrders(
+            // 自动装配 JWT，它代表了当前认证用户
+            @AuthenticationPrincipal Jwt jwt
+    ) {
+        // 提取 JWT 的 subject 并使用它作为用户的标识符
+        return orderService.getAllOrders(jwt.getSubject());
     }
 
     // 接受 OrderRequest 对象，对其进行校验并使用它来创建订单。创建的订单将会以 Mono 的形式返回

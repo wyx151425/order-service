@@ -35,8 +35,9 @@ public class OrderService {
     }
 
     // 使用 Flux 来发布多个订单
-    public Flux<Order> getAllOrders() {
-        return orderRepository.findAll();
+    public Flux<Order> getAllOrders(String userId) {
+        // 当请求所有订单的时候，响应中只包含属于给定用户的订单
+        return orderRepository.findAllByCreatedBy(userId);
     }
 
     // 在本地事务中执行方法
